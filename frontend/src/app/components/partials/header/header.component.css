@@ -6,7 +6,7 @@ header{
 }
 
 a{
-  color: #af1313;
+  color: #af1313!important;
 }
 a:hover{
   background: #e72929;

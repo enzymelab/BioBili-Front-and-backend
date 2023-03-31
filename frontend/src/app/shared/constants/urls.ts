@@ -5,3 +5,6 @@ export const ANTIBODYS_TAGS_URL = ANTIBODYS_URL + '/tags';
 export const ANTIBODYS_BY_SEARCH_URL = ANTIBODYS_URL + '/search/';
 export const ANTIBODYS_BY_TAG_URL = ANTIBODYS_URL + '/tag/';
 export const ANTIBODY_BY_ID_URL = ANTIBODYS_URL + '/';
+
+
+export const USER_LOGIN_URL = BASE_URL + '/api/users/login';
