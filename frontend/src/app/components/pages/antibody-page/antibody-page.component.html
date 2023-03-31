@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+  integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<app-not-found
+[visible]="!antibody"
+notFoundMessage="Product Not Found!"
+resetLinkText="Back to Homepage">
+</app-not-found>
+
+
+<div *ngIf="antibody" class="container">
+  <img [src]="antibody.imageurl" [alt]="antibody.name"/>
+
+  <div class="details">
+    <div class="header">
+      <span class="name">
+        {{antibody.name}}
+      </span>
+      <span class="favorite {{antibody.favorite? '': 'not'}}">
+        <i class="fa-solid fa-heart"></i>
+      </span>
+    </div>
+    <div class="rating">
+      <star-rating
+      [value]="antibody.stars"
+      [totalstars]="5"
+      checkedcolor="red"
+      uncheckedcolor="black"
+      size="25px"
+      [readonly]="true">
+      </star-rating>
+    </div>
+
+    <div class="origins">
+      <span *ngFor="let origin of antibody.origins">
+        {{origin}}
+      </span>
+    </div>
+    <div class="tags">
+      <a *ngFor="let tag of antibody.tags" routerLink="/tag/{{tag}}">
+        {{tag}}
+      </a>
+    </div>
+
+    <div class="catalog">
+      <span>Catalog # <strong>{{antibody.catNumber}}</strong>
+      </span>
+    </div>
+    <div class="price">
+      <span>
+        {{antibody.price | currency}}
+      </span>
+    </div>
+    <button (click)="addToCart()">Add to Cart</button>
+  </div>
+</div>

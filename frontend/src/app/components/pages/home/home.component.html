@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+  integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<app-search></app-search>
+<app-tags></app-tags>
+<app-not-found
+[visible]="!antibodies || !antibodies.length"
+notFoundMessage="No product is found!"
+resetLinkText="Reset Search">
+</app-not-found>
+<ul>
+  <li *ngFor = "let antibody of antibodies">
+    <a routerLink="/antibody/{{antibody.id}}">
+      <img [src]="antibody.imageurl" [alt]="antibody.name">
+      <div class="content">
+        <div class="name">
+          {{antibody.name}}
+        </div>
+        <div class="favorite" [ngClass]="antibody.favorite?'':'not'" >
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <div class="stars">
+          <star-rating
+          [value] = "antibody.stars"
+          [totalstars] = "5"
+          checkedcolor = "red"
+          uncheckedcolor = "black"
+          size = "22px"
+          [readonly]="true">
+        </star-rating>
+        </div>
+        <div class="product-item-footer">
+          <div class="origins">
+            <span *ngFor = "let origin of antibody.origins">
+              {{origin}}
+            </span>
+          </div>
+          <div class="catalog">
+            <span>Catalog #</span>
+            {{antibody.catNumber}}
+          </div>
+        </div>
+        <div class="price">
+          <span >
+            {{antibody.price | currency}}
+          </span>
+        </div>
+      </div>
+    </a>
+  </li>
+</ul>
