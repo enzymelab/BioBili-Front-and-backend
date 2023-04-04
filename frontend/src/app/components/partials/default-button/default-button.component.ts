@@ -4,7 +4,7 @@ import { Component,EventEmitter,Input,Output } from '@angular/core';
   selector: 'default-button',
   templateUrl: './default-button.component.html',
   styleUrls: ['./default-button.component.css']
-})
+}) 
 export class DefaultButtonComponent {
  @Input()
   type: 'submit' | 'button' = 'submit';
