@@ -4,6 +4,7 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
 
 const routes: Routes = [
   { path:'', component:HomeComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'antibody/:id', component: AntibodyPageComponent },
   { path: 'cart-page', component:CartPageComponent},
   { path: 'login', component:LoginPageComponent},
+  { path: 'register', component:RegisterPageComponent},
 ];
 
 @NgModule({

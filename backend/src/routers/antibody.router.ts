@@ -15,33 +15,60 @@ router.get("/seed", asynceHandler(
     res.send("Seed Is Done!");
 })
 )
-router.get("/", (req, res) => {
-  res.send(sample_antibody);
-})
-
-router.get("/search/:searchTerm", (req, res) => {
-  const searchTerm = req.params.searchTerm;
-  const antibodies = sample_antibody
-    .filter(antibody => antibody.name.toLowerCase()
-      .includes(searchTerm.toLowerCase()));
+router.get("/", asynceHandler(
+  async(req, res) => {
+  const antibodies = await AntibodyModel.find();
   res.send(antibodies);
-})
+}))
 
-router.get("/tags", (req, res) => {
-  res.send(sample_tags);
-})
-
-router.get("/tag/:tagName", (req, res) => {
-  const tagName = req.params.tagName;
-  const antibodies = sample_antibody
-    .filter(antibody => antibody.tags?.includes(tagName));
+router.get("/search/:searchTerm", asynceHandler(
+  async(req, res) => {
+  const searchRegex = new RegExp(req.params.searchTerm, 'i');
+  const antibodies = await AntibodyModel.find({name: {$regex:searchRegex}})
   res.send(antibodies);
-})
+}))
 
-router.get("/:antibodyId", (req, res) => {
-  const antibodyId = req.params.antibodyId;
-  const antibody = sample_antibody.find(antibody => antibody.id == antibodyId);
+router.get("/tags", asynceHandler(
+  async(req, res) => {
+    const tags = await AntibodyModel.aggregate([
+      {
+        $unwind:'$tags'
+      },
+      {
+        $group:{
+          _id: '$tags',
+          count:{$sum: 1}
+        }
+      },
+      {
+        $project:{
+          _id:0,
+          name: '$_id',
+          count: '$count'
+        }
+      }
+    ]).sort({count: -1});
+    //-1 mean descending
+
+    const all = {
+      name: 'All',
+      count: await AntibodyModel.countDocuments()
+    }
+    tags.unshift(all);
+    //unshift is opposite of push, add something at begining
+  res.send(tags);
+}))
+// 2 foods 3 tags, after unwind tags => 6foods 1 tag
+router.get("/tag/:tagName", asynceHandler(
+  async(req, res) => {
+  const antibodies= await AntibodyModel.find({tags: req.params.tagName})
+  res.send(antibodies);
+}))
+
+router.get("/:antibodyId", asynceHandler(
+  async(req, res) => {
+  const antibody = await AntibodyModel.findById(req.params.antibodyId);
   res.send(antibody);
-})
+}))
 
 export default router;
