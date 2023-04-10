@@ -42,7 +42,10 @@ export class CartService {
   getCartObservable(): Observable<Cart> {
     return this.cartSubject.asObservable();
   }
-
+// behaviorsubject get latest value
+  getCart(): Cart{
+    return this.cartSubject.value;
+  }
   private setCartToLocalStorage(): void {
     this.cart.totalPrice = this.cart.items.reduce((prevSum, currentItem) => prevSum + currentItem.price, 0)
     this.cart.totalCount = this.cart.items.reduce((prevSum, currentItem) => prevSum + currentItem.quantity, 0)
